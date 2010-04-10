@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<project name="DJBrain" default="all" basedir=".">
+
+
+	<property name="src" value="src" />
+
+
+	<property file="conf/djbrain.properties"/>
+	<property name="releaseroot" value="release/djbrain-${version}" />
+	<property name="release_win" value="release/djbrain-${version}/win/djbrain-win" />
+	<property name="release_osx" value="release/djbrain-${version}/osx/djbrain-osx" />
+	<property name="release_linux" value="release/djbrain-${version}/linux/djbrain-linux" />
+	<property name="release_src" value="release/djbrain-${version}/src/djbrain-src" />
+
+	<property name="bin" value="bin" />
+	<property name="help" value="docs/help" />
+	<property name="base" value="release/base" />
+	<property name="baselib" value="release/base/lib" />
+	<property name="basedoc" value="release/base/doc" />
+	<property name="baseconf" value="release/base/conf" />
+	<property name="lib" value="lib" />
+	<property name="images" value="images" />
+	<property name="conf" value="conf" />
+
+
+
+
+	<!-- ================================= 
+          target: prepare              
+         ================================= -->
+	<target name="prepare">
+		<mkdir dir="${releaseroot}" />
+	<mkdir dir="${basedoc}"/>
+	 
+	<mkdir dir="${baselib}"/>
+	
+		<copy todir="${base}/" file="CHANGELOG" overwrite="yes" />
+		<copy todir="${base}/" file="README" overwrite="yes" />
+		<copy todir="${base}/" file="LICENSE" overwrite="yes" />
+
+		<copy todir="${bin}/images">
+			<fileset dir="${images}" excludes=".svn" />
+		</copy>
+
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: compile                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="compile" depends="prepare">
+		<javac srcdir="src" destdir="${bin}" />
+		<jar destfile="${baselib}/djbrain.jar" basedir="${bin}">
+			<manifest>
+				   <attribute name="Main-class"   value="net.z0id.djbrain.Main"/>
+			</manifest>
+		</jar>
+	</target>
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: javadoc                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="javadoc" depends="prepare">
+		<javadoc packagenames="net.z0id.djbrain.*" sourcepath="${src}" destdir="${basedoc}" />
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: win                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="win" depends="compile">
+		<mkdir dir="${release_win}" />
+		
+		<copy todir="${release_win}/lib/">
+			<fileset dir="${lib}" excludes=".svn" />
+		</copy>
+
+		<copy todir="${release_win}/">
+			<fileset dir="${base}/qtlibs_win/" excludes=".svn" />
+		</copy>
+
+		<copy todir="${release_win}/lib/" file="${baselib}/djbrain.jar" />
+
+		<copy todir="${release_win}/conf">
+			<fileset dir="${baseconf}" excludes=".svn" />
+		</copy>
+
+		<copy todir="${release_win}/docs/help">
+			<fileset dir="${help}/" excludes=".svn" />
+		</copy>
+		
+		<copy tofile="${release_win}/CHANGELOG" file="${base}/CHANGELOG" />
+		<copy tofile="${release_win}/README" file="${base}/README" />
+		<copy tofile="${release_win}/LICENSE" file="${base}/LICENSE" />
+		<copy tofile="${release_win}/djbrain.exe" file="starter/win/djbrain.exe" />
+
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: osx                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="osx" depends="compile">
+		<mkdir dir="${release_osx}" />
+						
+						<copy todir="${release_osx}/lib/">
+							<fileset dir="${lib}" excludes=".svn" />
+						</copy>
+
+						<!--
+						<copy todir="${release_osx}/">
+							<fileset dir="${base}/qtlibs_win/" excludes=".svn" />
+						</copy>
+		-->
+
+
+						<copy todir="${release_osx}/lib/" file="${baselib}/djbrain.jar" />
+
+						<copy todir="${release_osx}/conf">
+							<fileset dir="${baseconf}" excludes=".svn" />
+						</copy>
+
+		<copy todir="${release_osx}/docs/help">
+						<fileset dir="${help}/" excludes=".svn" />
+			</copy>
+		
+
+						<copy tofile="${release_osx}/CHANGELOG" file="${base}/CHANGELOG" />
+						<copy tofile="${release_osx}/README" file="${base}/README" />
+						<copy tofile="${release_osx}/LICENSE" file="${base}/LICENSE" />
+						<copy tofile="${release_osx}/djbrain.sh" file="starter/osx/djbrain.sh" />
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: linux                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="linux" depends="compile">
+		<mkdir dir="${release_linux}" />
+				
+				<copy todir="${release_linux}/lib/">
+					<fileset dir="${lib}" excludes=".svn" />
+				</copy>
+
+				<!--
+				<copy todir="${release_linux}/">
+					<fileset dir="${base}/qtlibs_win/" excludes=".svn" />
+				</copy>
+-->
+
+
+				<copy todir="${release_linux}/lib/" file="${baselib}/djbrain.jar" />
+
+				<copy todir="${release_linux}/conf">
+					<fileset dir="${baseconf}" excludes=".svn" />
+				</copy>
+
+		<copy todir="${release_linux}/docs/help">
+					<fileset dir="${help}/" excludes=".svn" />
+		</copy>
+
+				<copy tofile="${release_linux}/CHANGELOG" file="${base}/CHANGELOG" />
+				<copy tofile="${release_linux}/README" file="${base}/README" />
+				<copy tofile="${release_linux}/LICENSE" file="${base}/LICENSE" />
+				<copy tofile="${release_linux}/djbrain.sh" file="starter/linux/djbrain.sh" />
+	</target>
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: src                      
+	         - - - - - - - - - - - - - - - - - -->
+	<target name="src" depends="javadoc">
+		<mkdir dir="${release_src}" />
+		<mkdir dir="${release_src}/src" />
+		<mkdir dir="${release_src}/images" />
+		<mkdir dir="${release_src}/lib" />
+		<mkdir dir="${release_src}/doc" />
+		<mkdir dir="${release_src}/conf" />
+		<mkdir dir="${release_src}/djbrain-src\Generated JUIC files" />
+		<mkdir dir="${release_src}/.settings" />
+
+		<copy todir="${release_src}/src">
+			<fileset dir="${src}" excludes=".svn" />
+		</copy>
+
+		<copy todir="${release_src}/images">
+			<fileset dir="${images}" excludes=".svn" />
+		</copy>
+
+
+		<copy todir="${release_src}/lib">
+			<fileset dir="${lib}" excludes=".svn" />
+		</copy>
+		
+		<copy todir="${release_src}/conf">
+					<fileset dir="${conf}" excludes=".svn" />
+				</copy>
+
+	<!--	<copy todir="${release_src}/.settings">
+							<fileset dir=".settings" excludes=".svn" />
+						</copy>
+		-->
+		
+		<copy todir="${release_src}/docs/api">
+			<fileset dir="${basedoc}" excludes=".svn" />
+		</copy>
+		
+		<copy todir="${release_src}/docs/help">
+					<fileset dir="${help}/" excludes=".svn" />
+		</copy>
+
+	 	<copy tofile="${release_src}/CHANGELOG" file="${base}/CHANGELOG" />
+		<copy tofile="${release_src}/README" file="${base}/README" />
+		<copy tofile="${release_src}/LICENSE" file="${base}/LICENSE" />
+		
+		<copy tofile="${release_src}/.classpath" file=".classpath" />
+			<copy tofile="${release_src}/.project" file=".project" />
+			<copy tofile="${release_src}/build.xml" file="build.xml" />
+
+	</target>
+
+	<!-- ================================= 
+	          target: all              
+	         ================================= -->
+	<target name="all" depends="win,linux,osx,src">
+
+
+		<zip destfile="release/djbrain-${version}/djbrain-${version}-win.zip" basedir="release/djbrain-${version}/win/" />
+		<zip destfile="release/djbrain-${version}/djbrain-${version}-src.zip" basedir="release/djbrain-${version}/src/" />
+		<zip destfile="release/djbrain-${version}/djbrain-${version}-linux.zip" basedir="release/djbrain-${version}/linux/" />
+		<zip destfile="release/djbrain-${version}/djbrain-${version}-osx.zip" basedir="release/djbrain-${version}/osx/" />
+
+	</target>
+	
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean">
+        <delete dir="${basedoc}"/>
+    	<delete dir="${bin}"/>
+    	<mkdir dir="${bin}"/>
+    	    	
+    </target>
+</project>

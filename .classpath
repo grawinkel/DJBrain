@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/hsqlsb_1.8.0.9/hsqldb.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="lib/jid3.jar"/>
+	<classpathentry kind="lib" path="lib/xom-1.1.jar"/>
+	<classpathentry kind="lib" path="qtjambi-mac-lgpl-4.5.2_01/qtjambi-4.5.2_01.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

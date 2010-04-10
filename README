@@ -1,0 +1,9 @@
+Stripped down and updated version of DJBrain
+
+The old project could be found here.
+http://sourceforge.net/projects/djbrain/
+
+This version of DJBrain compiles with the latest QT Jambi version (4.5.2_01) and misses the broken features of DJBrain 0.9.4.
+
+A further development is not planned but the source should not die on sourceforge ;-)
+
